@@ -1,11 +1,11 @@
 # ProjetSymfonyHitema
 Projet symfony 2018 Tiago Fernandes
-Site de vente en ligne de film et série. Chaque film et série (Entity Vidéo) on un ou plusieurs Réalisateur et Acteur, une description, date de sortie, des genres, un type, un prix, un age requis et une image.
+Site de vente en ligne du film et série. Chaque film et série (Entity Vidéo) ont un ou plusieurs Réalisateur et Acteur, une description, date de sortie, des genres, un type, un prix, un âge requis et une image.
 
-Pour acheter un film ou une série il faut que la personne soit authentifiée, puis doit saisir sa carte bleu (Une FAKE sa fonctionne lol)
+Pour acheter un film ou une série il faut que la personne soit authentifiée, elle ne peut acheter de film si l'âge requis n'est pas respecté, puis doit saisir sa carte bleue (Une FAKE sa fonctionne OKLM).
 
 # SQL
-Le fichier sql contenant la base de données est à la racine du projet
+Le fichier sql contenant la base de données est à la racine du projet.
 
 # Utilisateurs
 username : admin
