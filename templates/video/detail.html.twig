@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ video.name }}
+{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            {{ video.name }}
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="btn btn-warning pull-left"
+                   href="{{ path('app_video_update', {'slug':video.slug}) }}">Modifier</a>
+            {% endif %}
+        </div>
+        <img class="card-img-top" src="{{ asset('images/' ~ video.image ) }}" alt="{{ video.image }}">
+        <div class="card-body">
+            <h5 class="card-title">{{ video.name }}</h5>
+            <p class="card-text">{{ video.comment }}</p>
+
+
+            {% if video.urlTrailer %}
+                <h5>Bande d'annonce</h5>
+                <object type="application/x-shockwave-flash" data="{{ video.urlTrailer }}"
+                        style="width:720px; height:400px;">
+                    <param name="movie" value="{{ video.urlTrailer }}"/>
+                    <param name="allowFullScreen" value="true"/>
+                    <param name="allowScriptAccess" value="always"/>
+                    <param name="wmode" value="transparent"/>
+                </object>
+            {% endif %}
+
+
+        </div>
+
+        <div class="card-footer text-muted">
+            <p>Age requis : {{ video.requiredAge }} ans</p>
+            <p>Date de sortie : {{ video.dtRelease|date('d M Y') }}</p>
+
+
+            <button class="btn btn-primary pull-left">Acheter <span
+                        class="badge badge-secondary">{{ video.price }} €</span>
+            </button>
+        </div>
+    </div>
+
+    {% if video.filmmakers|length > 0 %}
+        <h3>Réalisateur</h3>
+        <div class="row">
+            {% for filmmaker in video.filmmakers %}
+                <div class="col-lg-4 col-sm-6 portfolio-item">
+                    <div class="card h-100">
+                        <a href="{{ path('app_character_characterbyslug', {'slug' : filmmaker.slug}) }}">
+                            <img class="card-img-top" src="{{ asset('images/' ~ filmmaker.image ) }}" alt="">
+                        </a>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="#">{{ filmmaker.lastname ~ ' ' ~ filmmaker.firstname }}</a>
+                            </h4>
+                            <p>{{ filmmaker.dtBorn|date('d M Y') }}</p>
+                            {% for profession in filmmaker.professions %}
+                                <p>{{ profession.name }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if video.actors|length > 0 %}
+        <h3>Acteurs</h3>
+        <div class="row">
+            {% for actor in video.actors %}
+                <div class="col-lg-4 col-sm-6 portfolio-item">
+                    <div class="card h-100">
+                        <a href="{{ path('app_character_characterbyslug', {'slug' : actor.slug}) }}">
+                            <img class="card-img-top" src="{{ asset('images/' ~ actor.image ) }}" alt="">
+                        </a>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="#">{{ actor.lastname ~ ' ' ~ actor.firstname }}</a>
+                            </h4>
+                            <p>{{ actor.dtBorn|date('d M Y') }}</p>
+                            {% for profession in actor.professions %}
+                                <p>{{ profession.name }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+    <h1>
+        {% if 'create' in route %}
+            Ajouter un personnage
+        {% elseif 'update' in route %}
+            Modifier un personnage
+        {% endif %}
+    </h1>
+
+    {{ form_start(form) }}
+    <div class="form-group">
+        <div class="form-group">
+            {{ form_label(form.lastname) }}
+            {{ form_widget(form.lastname) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.firstname) }}
+            {{ form_widget(form.firstname) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.dtBorn) }}
+            {{ form_widget(form.dtBorn) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.rowImage) }}
+            {{ form_widget(form.rowImage) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.professions) }}
+            {{ form_widget(form.professions) }}
+        </div>
+    </div>
+
+    <button class="btn btn-success">
+        {% if 'create' in route %}
+            Ajouter
+        {% elseif 'update' in route %}
+            Modifier
+        {% endif %}
+    </button>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+
+    <script>
+        $('#character_rowImage').on('change', function () {
+            let fileName = $(this).val().split('\\').pop();
+            $(this).siblings('.custom-file-label').addClass('selected').html(fileName);
+        });
+    </script>
+{% endblock %}

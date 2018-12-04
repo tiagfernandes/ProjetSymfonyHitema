@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Paiement de {{ video.price }} €
+{% endblock %}
+
+{% block body %}
+    <h1>{{ block('title') }}</h1>
+
+    {{ form_start(form) }}
+    <div class="form-group">
+        <div class="form-group">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name, {'value' : app.user.lastname ~' '~ app.user.firstname}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.number) }}
+            {{ form_widget(form.number) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.dateExpired) }}
+            {{ form_widget(form.dateExpired) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.cryptogram) }}
+            {{ form_widget(form.cryptogram) }}
+        </div>
+        <div hidden>
+            <label for="numeric">Numeric</label>
+            <input type="text" name="numeric" id="numeric" inputmode="numeric" autocomplete="cc-number">
+        </div>
+
+    </div>
+    <button class="btn btn-success">Valider
+    </button>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/payform.js') }}"></script>
+
+    <script>
+        payform.cardNumberInput(document.getElementById('credit_card_number'));
+        payform.expiryInput(document.getElementById('credit_card_dateExpired'));
+        payform.cvcInput(document.getElementById('credit_card_cryptogram'));
+        payform.numericInput(document.getElementById('numeric'));
+    </script>
+{% endblock %}

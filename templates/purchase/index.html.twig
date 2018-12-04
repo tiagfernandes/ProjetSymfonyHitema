@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <!-- Page Heading -->
+    <h1>{{ block('title') }}</h1>
+
+    <div class="row">
+        {% if purchases|length == 0 %}
+            <p>Aucun éléments disponible</p>
+        {% else %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Video</th>
+                    <th>Prix €</th>
+                    <th>Date d'achat</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for purchase in purchases %}
+                    <tr>
+                        <td>{{ purchase.video.name }}</td>
+                        <td>{{ purchase.price }}</td>
+                        <td>{{ purchase.dtPaid|date('d-m-Y') }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block title %}
+    Mes Achats
+{% endblock %}
+

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <h1>{{ block('title') }}</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <p class="text-center">
+        <button class="btn btn-success">
+            <span class="fa fa-sign-in-alt "></span> Inscription
+        </button>
+    </p>
+    {{ form_end(form) }}
+    <p class="text-center">
+        <a href="{{ path('app_security_login') }}">
+            <span class="fa fa-key"></span> Connexion
+        </a>
+    </p>
+{% endblock %}

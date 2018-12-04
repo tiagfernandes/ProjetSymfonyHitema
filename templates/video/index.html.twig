@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+{% set tokenDelete = csrf_token('DELETE_VIDEO') %}
+
+{% set title = 'Vidéos' %}
+{% if type is defined %}
+    {% set title = type.name %}
+{% endif %}
+
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block body %}
+    <!-- Page Heading -->
+    <h1>{{ block('title') }}</h1>
+    <div class="row">
+        <div class="col-6">
+            {% if type is defined %}
+                {% set action = path('app_video_listvideobytype', {'name': type.name}) %}
+            {% else %}
+                {% set action = path('app_video_listvideo') %}
+            {% endif %}
+            <form action="{{ action }}" method="get">
+                <div class="row">
+                    <div class="col">
+                        <input type="text" class="form-control" name="search" aria-describedby="search"
+                               placeholder="Entrez un nom" value="{{ app.request.get('search') }}">
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Rechercher</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="row">
+        {% if pagination|length == 0 %}
+            <p>Aucun éléments disponible</p>
+        {% endif %}
+        {% for video in pagination %}
+            <div class="col-lg-4 col-sm-6 portfolio-item">
+                <div class="card h-100">
+                    <a href="{{ path('app_video_videobyslug', {'slug' : video.slug}) }}">
+                        <img class="card-img-top" src="{{ asset('images/' ~ video.image ) }}" alt="">
+                    </a>
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            <a href="{{ path('app_video_videobyslug', {'slug' : video.slug}) }}">{{ video.name }}</a>
+                        </h4>
+                        <p class="card-text">{{ video.comment }}</p>
+                    </div>
+                    <div class="card-footer">
+                        {% if video.requiredage > 0 %}
+                            <span class="badge badge-danger">+ {{ video.requiredage }} ans</span><br>
+                        {% endif %}
+                        <a href="{{ path('app_purchase_payment', {'slug': video.slug}) }}" class="btn btn-primary">Acheter
+                            <span class="badge badge-secondary">{{ video.price }} €</span>
+                        </a>
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('app_video_delete', {'slug': video.slug,'token': tokenDelete}) }}"
+                               class="btn btn-danger">Supprimer</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+{% endblock %}
+
+

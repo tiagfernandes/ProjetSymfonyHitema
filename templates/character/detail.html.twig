@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="portfolio-item">
+                <div class="card mt-5 mb-5">
+                    <img class="card-img-top" src="{{ asset('images/' ~ character.image ) }}"
+                         alt="{{ character.image }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ character.lastname ~ ' ' ~ character.firstname }}</h5>
+                        {% for profession in character.professions %}
+                            <p>{{ profession.name }}</p>
+                        {% endfor %}
+                    </div>
+
+                    <div class="card-footer text-muted">
+                        <p>Age : {{ character.dtBorn|age }} ans</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            {% if character.videosFilmmaker|length > 0 %}
+                <h3>Vidéos réalisées</h3>
+                <div class="row">
+                    {% for video in  character.videosFilmmaker %}
+                        <div class="col-lg-4 portfolio-item">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    {{ video.name }}
+                                </div>
+                                <img class="card-img-top" src="{{ asset('images/' ~ video.image ) }}"
+                                     alt="{{ video.image }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ video.name }}</h5>
+                                    <p class="card-text">{{ video.comment }}</p>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    <p>Age requis : {{ video.requiredAge }} ans</p>
+                                    <p>Date de sortie : {{ video.dtRelease|date('d M Y') }}</p>
+                                    <button class="btn btn-primary pull-left">Acheter <span
+                                                class="badge badge-secondary">{{ video.price }} €</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if character.videosActor|length > 0 %}
+                <h3>Vidéos jouées</h3>
+                <div class="row">
+                    {% for video in  character.videosActor %}
+                        <div class="col-lg-4 portfolio-item">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    {{ video.name }}
+                                </div>
+                                <img class="card-img-top" src="{{ asset('images/' ~ video.image ) }}"
+                                     alt="{{ video.image }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ video.name }}</h5>
+                                    <p class="card-text">{{ video.comment }}</p>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    <p>Age requis : {{ video.requiredAge }} ans</p>
+                                    <p>Date de sortie : {{ video.dtRelease|date('d M Y') }}</p>
+                                    <button class="btn btn-primary pull-left">Acheter <span
+                                                class="badge badge-secondary">{{ video.price }} €</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

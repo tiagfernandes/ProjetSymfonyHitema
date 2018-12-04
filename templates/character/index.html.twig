@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+{% set tokenDelete = csrf_token('DELETE_CHARACTER') %}
+{% block body %}
+    <!-- Page Heading -->
+    <h1>Personnages</h1>
+    <div class="row">
+        <div class="col-6">
+            {% set action = path('app_character_list') %}
+            <form action="{{ action }}" method="get">
+                <div class="row">
+                    <div class="col">
+                        <input type="text" class="form-control" name="search" aria-describedby="search"
+                               placeholder="Entrez un nom" value="{{ app.request.get('search') }}">
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Rechercher</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="row">
+        {% if pagination|length == 0 %}
+            <p>Aucun éléments disponible</p>
+        {% endif %}
+        {% for character in pagination %}
+            <div class="col-lg-4 col-sm-6 portfolio-item">
+                <div class="card h-100">
+                    <a href="{{ path('app_character_characterbyslug', {'slug' : character.slug}) }}">
+                        <img class="card-img-top" src="{{ asset('images/' ~ character.image ) }}" alt="">
+                    </a>
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            <a href="#">{{ character.lastname ~ ' ' ~ character.firstname }}</a>
+                        </h4>
+                        <p>{{ character.dtBorn|date('d M Y') }}</p>
+                        {% for profession in character.professions %}
+                            <p>{{ profession.name }}</p>
+                        {% endfor %}
+                    </div>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="card-footer">
+                            <a href="{{ path('app_character_update', {'slug':character.slug}) }}"
+                               class="btn btn-warning">Modifier</a>
+                            <a href="{{ path('app_character_delete', {'slug':character.slug, 'token':tokenDelete}) }}"
+                               class="btn btn-danger">Supprimer</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+
+
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
